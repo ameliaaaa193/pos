@@ -5,7 +5,9 @@
 @section('content')
 <h4>Tambah User</h4>
 
-<form action=" {{ route('produk.store') }}" method="POST">
+<form action=" {{ route('admin.users.store') }}" method="POST">
+ @csrf
+ 
 @include('users._form')
 </form>
 @endsection
