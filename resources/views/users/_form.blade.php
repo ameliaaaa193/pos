@@ -1,4 +1,43 @@
-
+<style>
+    .form-label {
+        font-weight: 600;
+        color: #374151;
+        font-size: 0.9rem;
+    }
+    .form-control,
+    .form-select {
+        border-radius: 0.6rem;
+        padding: 0.6rem 0.9rem;
+        border: 1px solid #e5e7eb;
+    }
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #db2763;
+        box-shadow: 0 0 0 0.2rem rgba(219, 39, 99, 0.12);
+    }
+    .btn-success {
+        background: #db2763;
+        border: none;
+        border-radius: 0.6rem;
+        font-weight: 600;
+        padding: 0.55rem 1.4rem;
+    }
+    .btn-success:hover {
+        background: #b91c4f;
+    }
+    .btn-secondary {
+        background: #f3f4f6;
+        border: none;
+        border-radius: 0.6rem;
+        color: #374151;
+        font-weight: 600;
+        padding: 0.55rem 1.4rem;
+    }
+    .btn-secondary:hover {
+        background: #e5e7eb;
+        color: #1f2937;
+    }
+</style>
 
 <div class="mb-3">
     <label class="form-label">Nama</label>
@@ -6,7 +45,7 @@
         class="form-control @error('name') is-invalid @enderror"
         value="{{ old('name', $user->name ?? '' ) }}">
     @error('name')
-        <div class="invallid-feedback">
+        <div class="invalid-feedback">
             {{ $message }}
         </div>
     @enderror

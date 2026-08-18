@@ -9,7 +9,10 @@
 
     <ul class="sidebar-menu">
         <li><a class="sidebar-link {{ Request::is('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}"><i class="bi bi-house"></i> Dashboard</a></li>
+        {{-- Menu Users hanya untuk admin(role_id = 1) --}}
+        @if(auth()->user()->role_id === 1)
         <li><a class="sidebar-link {{ Request::is('admin/users') ? 'active' : '' }}" href="{{ route('admin.users') }}"><i class="bi bi-people"></i> Users</a></li>
+        @endif
         <li><a class="sidebar-link {{ Request::is('produk') ? 'active' : '' }}" href="{{ route('produk.index') }}"><i class="bi bi-box-seam"></i> Produk</a></li>
         <li><a class="sidebar-link {{ Request::is('penjualan') ? 'active' : '' }}" href="{{ route('penjualan.index') }}"><i class="bi bi-cart-check"></i> Penjualan</a></li>
     </ul>

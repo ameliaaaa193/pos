@@ -282,10 +282,6 @@
                         @enderror
                     </div>
 
-                    <div class="form-extra-row">
-                        <a href="#">Lupa password?</a>
-                    </div>
-
                     <button type="submit" class="btn btn-primary">Login</button>
                 </form>
             </div>

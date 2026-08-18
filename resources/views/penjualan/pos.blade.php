@@ -84,12 +84,6 @@
         color: #374151;
         vertical-align: middle;
     }
-    .cart-table .form-control-color-sm {
-        border-radius: 0.5rem;
-        border: 1px solid #e5e7eb;
-        padding: 0.35rem 0.6rem;
-        text-align: center;
-    }
 
     .cart-footer {
         background: #fdecf1;
@@ -220,14 +214,8 @@
                 <td>{{ $item->produk->nama }}</td>
                 <td>Rp.{{ number_format($item->produk->harga_jual) }}</td>
 
-                <td>
-                   <form method="POST" action="{{ route('itempenjualan.update', $item->id) }}">
-                      @csrf @method('PUT')
-                      <input type="number" name="quantity"
-                             value="{{ $item->kuantitas }}"
-                             class="form-control form-control-color-sm">
-                    </form>
-                </td>
+                <td>{{ $item->kuantitas }}</td>
+
                 <td>Rp. {{ number_format($item->subtotal) }}</td>
                 <td>
                   @can('delete', $item)

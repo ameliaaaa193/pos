@@ -75,6 +75,7 @@
     .table-card .img-thumbnail {
         border-radius: 0.6rem;
         border: 1px solid #f1e3e8;
+        display: block;
     }
 
     .btn-warning {
@@ -142,9 +143,9 @@
           <td>{{ $product->harga_beli }}</td>
           <td>{{ $product->harga_jual }}</td>
           <td>{{ $product->stok }}</td>
-          <td class="d-flex gap-1">
+          <td>
             @can('update', $product)
-            <a href="{{ route('produk.edit', $product) }}" class="btn btn-warning">Edit</a>
+            <a href="{{ route('produk.edit', $product) }}" class="btn btn-warning me-1">Edit</a>
             @endcan
             @can('delete', $product)
             <form action="{{ route('produk.destroy', $product) }}" method="POST" class="d-inline">

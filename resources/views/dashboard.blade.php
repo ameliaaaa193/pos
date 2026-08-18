@@ -44,7 +44,7 @@
         <div class="col-md-6">
             <div class="card stat-card">
                 <div class="card-header"><span class="stat-icon purple"><i class="bi bi-receipt"></i></span> Jumlah Transaksi Hari ini</div>
-                <div class="card-body"><h5 class="card-title">Rp {{ number_format($ringkasan['total_penjualan']) }}</h5></div>
+                <div class="card-body"><h5 class="card-title">{{ number_format($ringkasan['total_transaksi']) }}</h5></div>
             </div>
         </div>
     </div>
@@ -54,13 +54,13 @@
         <div class="col-md-6">
             <div class="card stat-card">
                 <div class="card-header"><span class="stat-icon green"><i class="bi bi-cash-coin"></i></span> Total pembayaran tunai</div>
-                <div class="card-body"><h5 class="card-title">Rp {{ number_format($ringkasan['total_penjualan']) }}</h5></div>
+                <div class="card-body"><h5 class="card-title">Rp {{ number_format($ringkasan['total_cash']) }}</h5></div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="card stat-card">
                 <div class="card-header"><span class="stat-icon orange"><i class="bi bi-credit-card"></i></span> Total pembayaran non-tunai</div>
-                <div class="card-body"><h5 class="card-title">Rp {{ number_format($ringkasan['total_penjualan']) }}</h5></div>
+                <div class="card-body"><h5 class="card-title">Rp {{ number_format($ringkasan['total_non_tunai']) }}</h5></div>
             </div>
         </div>
     </div>
@@ -95,9 +95,9 @@
                 <table class="table">
                     <thead><tr><th scope="col">#</th><th scope="col">Nama</th><th scope="col">Stok</th></tr></thead>
                     <tbody>
-                        @forelse ($produkStokRendah as $index => $produk)
+                        @forelse ($produkStokHabis as $index => $produk)
                             <tr>
-                                <td>{{ $produkStokRendah->firstItem() + $index }}</td>
+                                <td>{{ $produkStokHabis->firstItem() + $index }}</td>
                                 <td>{{ $produk->nama }}</td>
                                 <td>{{ $produk->stok }}</td>
                             </tr>
@@ -106,7 +106,6 @@
                         @endforelse
                     </tbody>
                 </table>
-                {{ $produkStokRendah->links() }}
             </div>
         </div>
     </div>
@@ -116,16 +115,16 @@
         <div class="col-md-12">
             <div class="info-card">
                 <table class="table">
-                    <thead><tr><th scope="col">#</th><th scope="col">Nama</th><th scope="col">Stok</th></tr></thead>
+                    <thead><tr><th scope="col">#</th><th scope="col">Nama</th><th scope="col">Terjual</th></tr></thead>
                     <tbody>
-                        @forelse ($produkStokRendah as $index => $produk)
+                        @forelse ($produkTerlaris as $index => $produk)
                             <tr>
-                                <td>{{ $produkStokRendah->firstItem() + $index }}</td>
+                                <td>{{ $index + 1 }}</td>
                                 <td>{{ $produk->nama }}</td>
-                                <td>{{ $produk->stok }}</td>
+                                <td>{{ $produk->total_terjual }}</td>
                             </tr>
                         @empty
-                            <tr><td colspan="3" class="text-muted text-center">Seluruh produk berada dalam kondisi stok aman.</td></tr>
+                            <tr><td colspan="3" class="text-muted text-center">Belum ada produk terjual hari ini.</td></tr>
                         @endforelse
                     </tbody>
                 </table>
