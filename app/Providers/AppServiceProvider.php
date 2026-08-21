@@ -10,9 +10,11 @@ use App\Policies\DashboardPolicy;
 use App\Models\Penjualan;
 use App\Models\Produk;
 use App\Models\ItemPenjualan;
+use App\Models\Jenis;
 use App\Policies\ItemPenjualanPolicy;
 use App\Policies\PenjualanPolicy;
 use App\Policies\ProdukPolicy;
+use App\Policies\JenisPolicy;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,7 +22,8 @@ class AppServiceProvider extends ServiceProvider
         User::class     => DashboardPolicy::class,
         Produk::class   => ProdukPolicy::class,
         Penjualan::class=> PenjualanPolicy::class,
-        ItemPenjualan::class => ItemPenjualanPolicy::class
+        ItemPenjualan::class => ItemPenjualanPolicy::class,
+        Jenis::class    => JenisPolicy::class,
     ];
     /**
      * Register any application services.

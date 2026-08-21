@@ -13,6 +13,10 @@
         @if(auth()->user()->role_id === 1)
         <li><a class="sidebar-link {{ Request::is('admin/users') ? 'active' : '' }}" href="{{ route('admin.users') }}"><i class="bi bi-people"></i> Users</a></li>
         @endif
+        {{-- Menu Jenis hanya untuk admin(role_id = 1) --}}
+        @if(auth()->user()->role_id === 1)
+        <li><a class="sidebar-link {{ Request::is('jenis') ? 'active' : '' }}" href="{{ route('jenis.index') }}"><i class="bi bi-tags"></i> Jenis</a></li>
+        @endif
         <li><a class="sidebar-link {{ Request::is('produk') ? 'active' : '' }}" href="{{ route('produk.index') }}"><i class="bi bi-box-seam"></i> Produk</a></li>
         <li><a class="sidebar-link {{ Request::is('penjualan') ? 'active' : '' }}" href="{{ route('penjualan.index') }}"><i class="bi bi-cart-check"></i> Penjualan</a></li>
     </ul>
@@ -31,9 +35,9 @@
     .sidebar-brand-subtitle { font-size: 0.75rem; color: #9ca3af; }
     .sidebar-menu { list-style: none; padding: 0; margin: 0; flex: 1; }
     .sidebar-menu li { margin-bottom: 0.25rem; }
-    .sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 0.75rem; border-radius: 0.6rem; color: #4b5563; text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: all 0.15s ease-in-out; }
-    .sidebar-link:hover { background: #fdecf1; color: #db2763; }
-    .sidebar-link.active { background: #db2763; color: #fff; }
+    .sidebar-link { display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 0.75rem; border-radius: 0.6rem; border: 1px solid #e5e7eb; color: #4b5563; text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: all 0.15s ease-in-out; }
+    .sidebar-link:hover { background: #fdecf1; color: #db2763; border-color: #fbcfe0; }
+    .sidebar-link.active { background: #db2763; color: #fff; border-color: #db2763; }
     .sidebar-footer { margin-top: 1.5rem; background: #fdecf1; border-radius: 1rem; padding: 1.25rem 1rem; text-align: center; }
     .sidebar-footer-icon { width: 44px; height: 44px; border-radius: 50%; background: #db2763; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin: 0 auto 0.75rem; }
     .sidebar-footer p { font-size: 0.8rem; color: #6b7280; margin: 0; line-height: 1.4; }

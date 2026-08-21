@@ -8,13 +8,15 @@
         margin-bottom: 0.35rem;
         display: inline-block;
     }
-    .form-control {
+    .form-control,
+    .form-select {
         border-radius: 0.6rem;
         padding: 0.6rem 0.9rem;
         border: 1px solid #e5e7eb;
         margin-bottom: 1rem;
     }
-    .form-control:focus {
+    .form-control:focus,
+    .form-select:focus {
         border-color: #db2763;
         box-shadow: 0 0 0 0.2rem rgba(219, 39, 99, 0.12);
     }
@@ -94,6 +96,27 @@
            value="{{ old('name', $produk->nama ?? '') }}">
 
     @error('name')
+        <div class="invalid-feedback">
+            {{ $message }}
+        </div>
+    @enderror
+</div>
+
+<div>
+    <label>Jenis</label><br>
+
+    <select name="jenis_id"
+            class="form-select @error('jenis_id') is-invalid @enderror">
+        <option value="">-- Pilih Jenis --</option>
+        @foreach($jenis as $j)
+        <option value="{{ $j->id }}"
+            @selected(old('jenis_id', $produk->jenis_id ?? '') == $j->id)>
+            {{ $j->nama }}
+        </option>
+        @endforeach
+    </select>
+
+    @error('jenis_id')
         <div class="invalid-feedback">
             {{ $message }}
         </div>

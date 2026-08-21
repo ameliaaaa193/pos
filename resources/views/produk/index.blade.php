@@ -78,6 +78,16 @@
         display: block;
     }
 
+    .jenis-badge {
+        display: inline-block;
+        padding: 0.25rem 0.7rem;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        background: #fdecf1;
+        color: #db2763;
+    }
+
     .btn-warning {
         background: #fbbf24;
         border: none;
@@ -94,7 +104,7 @@
 </style>
 
 <div class="page-header">
-    <h1>Halaman Produk</h1>
+    <h1>Produk</h1>
     @can('create', App\Models\Produk::class)
     <a href="{{ route('produk.create') }}" method="GET" class="btn btn-primary">create</a>
     @endcan
@@ -123,6 +133,7 @@
           <th scope="col">User</th>
           <th scope="col">Foto</th>
           <th scope="col">Nama</th>
+          <th scope="col">Jenis</th>
           <th scope="col">Harga Beli</th>
           <th scope="col">Harga Jual</th>
           <th scope="col">Stok</th>
@@ -140,6 +151,13 @@
                     class="img-thumbnail">
           </td>
           <td>{{ $product->nama }}</td>
+          <td>
+            @if($product->jenis)
+                <span class="jenis-badge">{{ $product->jenis->nama }}</span>
+            @else
+                <span class="text-muted">-</span>
+            @endif
+          </td>
           <td>{{ $product->harga_beli }}</td>
           <td>{{ $product->harga_jual }}</td>
           <td>{{ $product->stok }}</td>
@@ -160,7 +178,7 @@
         </tr>
         @empty
           <tr>
-            <td colspan="8"><h1>Data tidak tersedia.</h1></td>
+            <td colspan="9"><h1>Data tidak tersedia.</h1></td>
           </tr>
         @endforelse
       </tbody>

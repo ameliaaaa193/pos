@@ -6,6 +6,7 @@ use App\Http\Requests\Produk\StoreRequest;
 use App\Http\Requests\Produk\UpdateRequest;
 use App\Http\Requests\SearchRequest;
 use App\Models\Produk;
+use App\Models\Jenis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -48,7 +49,9 @@ class ProdukController extends Controller
     {
         $this->authorize('create', Produk::class);
 
-        return view('produk.create');
+        $jenis = Jenis::orderBy('nama')->get();
+
+        return view('produk.create', compact('jenis'));
     }
 
     /**
@@ -59,6 +62,7 @@ class ProdukController extends Controller
         $dataReq = $request->validated();
 
         $data['user_id'] = Auth::id();
+        $data['jenis_id'] = $dataReq['jenis_id'] ?? null;
         $data['nama'] = $dataReq['name'];
         $data['harga_beli'] = $dataReq['purchase_price'];
         $data['harga_jual'] = $dataReq['selling_price'];
@@ -88,7 +92,9 @@ class ProdukController extends Controller
     {
         $this->authorize('update', $produk);
 
-        return view('produk.edit', compact('produk'));
+        $jenis = Jenis::orderBy('nama')->get();
+
+        return view('produk.edit', compact('produk', 'jenis'));
     }
 
     /**
@@ -100,6 +106,7 @@ class ProdukController extends Controller
 
         $data = [
         'user_id'   => Auth::id(),
+        'jenis_id'  => $dataReq['jenis_id'] ?? null,
         'nama'      => $dataReq['name'],
         'harga_beli'=> $dataReq['purchase_price'],
         'harga_jual'=> $dataReq['selling_price'],
