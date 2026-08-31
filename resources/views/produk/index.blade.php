@@ -101,7 +101,24 @@
         border-radius: 0.5rem;
         font-weight: 600;
     }
+
+    .alert-danger {
+        background: #fee2e2;
+        color: #b91c1c;
+        border: none;
+        border-radius: 0.75rem;
+        padding: 0.9rem 1.25rem;
+        margin-bottom: 1.25rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
 </style>
+
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
 
 <div class="page-header">
     <h1>Produk</h1>
