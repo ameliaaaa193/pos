@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'POS')
+@section('title', 'Nyamnyam')
 
 @section('content')
 
@@ -181,6 +181,83 @@
         border-radius: 0.5rem;
         font-weight: 600;
     }
+
+    /* Custom modal konfirmasi (tanpa Bootstrap JS, tanpa confirm() bawaan browser) */
+    .custom-modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.45);
+        z-index: 1050;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    }
+    .custom-modal-overlay.active {
+        display: flex;
+    }
+    .custom-modal-box {
+        background: #fff;
+        border-radius: 1rem;
+        width: 100%;
+        max-width: 380px;
+        overflow: hidden;
+    }
+    .custom-modal-header {
+        background: #fdecf1;
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .custom-modal-header h5 {
+        margin: 0;
+        font-weight: 700;
+        color: #db2763;
+        font-size: 1.05rem;
+    }
+    .custom-modal-close {
+        background: none;
+        border: none;
+        font-size: 1.4rem;
+        line-height: 1;
+        color: #db2763;
+        cursor: pointer;
+    }
+    .custom-modal-body {
+        padding: 1.5rem;
+        text-align: center;
+    }
+    .custom-modal-body p {
+        color: #374151;
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+    }
+    .custom-modal-actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+    .custom-modal-actions button {
+        flex: 1;
+        border: none;
+        border-radius: 0.6rem;
+        padding: 0.6rem;
+        font-weight: 600;
+    }
+    .btn-modal-cancel {
+        background: #f3f4f6;
+        color: #374151;
+    }
+    .btn-modal-cancel:hover {
+        background: #e5e7eb;
+    }
+    .btn-modal-confirm {
+        background: #db2763;
+        color: #fff;
+    }
+    .btn-modal-confirm:hover {
+        background: #b91c4f;
+    }
 </style>
 
 @if (session('errors'))
@@ -288,8 +365,9 @@
             <strong>Rp {{ number_format($sale->total_pembayaran) }}</strong>
 
             <form method="POST" 
+                  id="checkoutForm"
                   action="{{ route('penjualan.update', $sale->id) }}" 
-                  onsubmit="return confirm('Yakin ingin checkout?')" class="mt-2">
+                  class="mt-2">
               @csrf
               @method('PUT')
               <select name="payment_method" id="paymentMethod" class="form-select mb-2" onchange="togglePaymentUI()">
@@ -319,17 +397,17 @@
                   <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=POS-PAYMENT-{{ $sale->id }}-{{ $sale->total_pembayaran }}" alt="QR Code Pembayaran">
               </div>
 
-              <button class="btn btn-success w-100 {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }}">
+              <button type="button" class="btn btn-success w-100 {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }}" onclick="openConfirmModal('checkout')">
                  Checkout
               </button>
             </form>
             @can('delete', $sale)
             <form action="{{ route('penjualan.destroy', $sale->id) }}"
                   method="POST"
-                  onsubmit="return confirm('Apakah Anda yakin ingin membatalkan transaksi ini?')">
+                  id="batalForm">
                   @csrf
                   @method('DELETE')
-                  <button class="btn btn-outline-danger w-100 mt-2 {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }}">
+                  <button type="button" class="btn btn-outline-danger w-100 mt-2 {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }}" onclick="openConfirmModal('batal')">
                       Batal Transaksi
                   </button>
             </form>
@@ -338,6 +416,40 @@
       </div>
 </div>
 
+</div>
+
+{{-- Modal konfirmasi Checkout --}}
+<div class="custom-modal-overlay" id="confirmCheckoutModal">
+  <div class="custom-modal-box">
+    <div class="custom-modal-header">
+        <h5>Konfirmasi Checkout</h5>
+        <button type="button" class="custom-modal-close" onclick="closeConfirmModal('checkout')">&times;</button>
+    </div>
+    <div class="custom-modal-body">
+        <p>Yakin ingin checkout?</p>
+        <div class="custom-modal-actions">
+            <button type="button" class="btn-modal-cancel" onclick="closeConfirmModal('checkout')">Batal</button>
+            <button type="button" class="btn-modal-confirm" onclick="document.getElementById('checkoutForm').submit()">Ya, Checkout</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+{{-- Modal konfirmasi Batal Transaksi --}}
+<div class="custom-modal-overlay" id="confirmBatalModal">
+  <div class="custom-modal-box">
+    <div class="custom-modal-header">
+        <h5>Batalkan Transaksi</h5>
+        <button type="button" class="custom-modal-close" onclick="closeConfirmModal('batal')">&times;</button>
+    </div>
+    <div class="custom-modal-body">
+        <p>Apakah Anda yakin ingin membatalkan transaksi ini?</p>
+        <div class="custom-modal-actions">
+            <button type="button" class="btn-modal-cancel" onclick="closeConfirmModal('batal')">Tidak</button>
+            <button type="button" class="btn-modal-confirm" onclick="document.getElementById('batalForm').submit()">Ya, Batalkan</button>
+        </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -374,6 +486,22 @@
         } else {
             cashSection.style.display = 'block';
             qrisSection.style.display = 'none';
+        }
+    }
+
+    function openConfirmModal(type) {
+        if (type === 'checkout') {
+            document.getElementById('confirmCheckoutModal').classList.add('active');
+        } else if (type === 'batal') {
+            document.getElementById('confirmBatalModal').classList.add('active');
+        }
+    }
+
+    function closeConfirmModal(type) {
+        if (type === 'checkout') {
+            document.getElementById('confirmCheckoutModal').classList.remove('active');
+        } else if (type === 'batal') {
+            document.getElementById('confirmBatalModal').classList.remove('active');
         }
     }
 </script>

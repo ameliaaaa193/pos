@@ -2,8 +2,8 @@
     <div class="sidebar-brand">
         <div class="sidebar-brand-icon"><i class="bi bi-cart3"></i></div>
         <div>
-            <div class="sidebar-brand-title">POS</div>
-            <div class="sidebar-brand-subtitle">Point of Sales</div>
+            <div class="sidebar-brand-title">Nyamnyam Shop</div>
+            <div class="sidebar-brand-subtitle">Kulineran Yuk!</div>
         </div>
     </div>
 

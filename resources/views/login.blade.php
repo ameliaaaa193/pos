@@ -238,7 +238,7 @@
                 <circle cx="150" cy="150" r="8" fill="#fff" opacity="0.6"/>
             </svg>
             <h2>Selamat Datang di</h2>
-            <h2><span class="accent">Aplikasi POS</span></h2>
+            <h2><span class="accent">Nyamyam Shop</span></h2>
             <p>Kelola transaksi, produk, dan laporan penjualan dengan mudah dan efisien.</p>
         </div>
 
@@ -247,7 +247,7 @@
                 <i class="bi bi-cart3"></i>
             </div>
 
-            <h5 class="card-header">Login <span class="accent">POS</span></h5>
+            <h5 class="card-header">Login <span class="accent">Nyamnyam Shop</span></h5>
             <p class="login-subtitle">Silakan masuk untuk melanjutkan</p>
 
             <div class="card-body">
