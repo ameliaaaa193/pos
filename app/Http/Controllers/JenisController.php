@@ -64,7 +64,15 @@ class JenisController extends Controller
     {
         $this->authorize('delete', $jeni);
 
-        $jeni->delete();
+        if ($jeni->produk()->exists()) {
+            return redirect()->route('jenis.index')->with('errors', 'Jenis tidak bisa dihapus karena masih digunakan oleh produk.');
+        }
+
+        try {
+            $jeni->delete();
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect()->route('jenis.index')->with('errors', 'Jenis tidak bisa dihapus karena masih digunakan oleh produk.');
+        }
 
         return redirect()->route('jenis.index')->with('success', 'Jenis berhasil dihapus.');
     }

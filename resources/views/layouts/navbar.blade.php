@@ -8,6 +8,7 @@
     </div>
 
     <ul class="sidebar-menu">
+        {{-- <li><a class="sidebar-link {{ Request::is('about') ? 'active' : '' }}" href="{{ route('about') }}"><i class="bi bi-info-circle"></i> About</a></li> --}}
         <li><a class="sidebar-link {{ Request::is('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}"><i class="bi bi-house"></i> Dashboard</a></li>
         {{-- Menu Users hanya untuk admin(role_id = 1) --}}
         @if(auth()->user()->role_id === 1)

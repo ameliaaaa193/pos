@@ -38,4 +38,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('/penjualan', PenjualanController::class);
         Route::resource('/itempenjualan', ItemPenjualanController::class);
     });
-});
+    });
+
+    Route::get('/about', function () {
+        return view('about');
+    })->name('about');

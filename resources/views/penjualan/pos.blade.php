@@ -377,10 +377,11 @@
               </select>
 
               {{-- Tampil kalau CASH --}}
-              <div id="cashSection">
+              <div id="cashSection" style="display:none;">
                   <label class="cash-info-label">Uang Diterima</label>
                   <input type="number"
                          id="uangDiterima"
+                         name="uang_diterima"
                          class="form-control mb-2"
                          placeholder="Masukkan jumlah uang"
                          min="0"
@@ -480,11 +481,14 @@
         const cashSection = document.getElementById('cashSection');
         const qrisSection = document.getElementById('qrisSection');
 
-        if (method === 'QRIS') {
+        if (method === 'CASH') {
+            cashSection.style.display = 'block';
+            qrisSection.style.display = 'none';
+        } else if (method === 'QRIS') {
             cashSection.style.display = 'none';
             qrisSection.style.display = 'block';
         } else {
-            cashSection.style.display = 'block';
+            cashSection.style.display = 'none';
             qrisSection.style.display = 'none';
         }
     }

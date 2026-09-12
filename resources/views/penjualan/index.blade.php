@@ -145,6 +145,37 @@
         padding: 1.25rem 1.5rem;
     }
 
+    .custom-modal-body p {
+        color: #374151;
+        font-size: 0.95rem;
+        margin-bottom: 1.25rem;
+    }
+    .custom-modal-actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+    .custom-modal-actions button {
+        flex: 1;
+        border: none;
+        border-radius: 0.6rem;
+        padding: 0.6rem;
+        font-weight: 600;
+    }
+    .btn-modal-cancel {
+        background: #f3f4f6;
+        color: #374151;
+    }
+    .btn-modal-cancel:hover {
+        background: #e5e7eb;
+    }
+    .btn-modal-confirm {
+        background: #db2763;
+        color: #fff;
+    }
+    .btn-modal-confirm:hover {
+        background: #b91c4f;
+    }
+
     .detail-meta {
         font-size: 0.8rem;
         color: #6b7280;
@@ -254,14 +285,9 @@
             <a href="{{ route('penjualan.edit', $sale) }}" class="btn btn-warning">Edit</a>
             @endcan
             @can('delete', $sale)
-            <form action="{{ route('penjualan.destroy', $sale) }}" method="POST" class="d-inline">
-                @csrf
-                @method('DELETE')
-
-                <button class="btn btn-danger" onclick="return confirm('Apakah anda yakin akan menghapus penjualan ini?')">
-                    Hapus
-                </button>
-            </form>
+            <button type="button" class="btn btn-danger" onclick="openConfirmDeleteModal({{ $sale->id }})">
+                Hapus
+            </button>
             @endcan
           </td>
         </tr>
@@ -315,6 +341,14 @@
         <p class="detail-label">Metode pembayaran</p>
         <p class="detail-value">{{ $sale->metode_pembayaran }}</p>
 
+        @if($sale->metode_pembayaran === 'CASH' && $sale->status === 'COMPLETED')
+        <p class="detail-label">Uang Diterima</p>
+        <p class="detail-value">Rp {{ number_format($sale->uang_diterima) }}</p>
+
+        <p class="detail-label">Kembalian</p>
+        <p class="detail-value fw-bold">Rp {{ number_format($sale->kembalian) }}</p>
+        @endif
+
         <div class="detail-status-message {{ $sale->status }}">
             @if($sale->status === 'COMPLETED')
                 Transaksi telah selesai.
@@ -333,12 +367,45 @@
 </div>
 @endforeach
 
+{{-- Modal konfirmasi hapus, satu per transaksi --}}
+@foreach($sales as $sale)
+@can('delete', $sale)
+<div class="custom-modal-overlay" id="confirmDeleteModal{{ $sale->id }}">
+  <div class="custom-modal-box">
+    <div class="custom-modal-header">
+        <h5>Hapus Penjualan</h5>
+        <button type="button" class="custom-modal-close" onclick="closeConfirmDeleteModal({{ $sale->id }})">&times;</button>
+    </div>
+    <div class="custom-modal-body">
+        <p>Apakah anda yakin akan menghapus penjualan ini?</p>
+        <div class="custom-modal-actions">
+            <button type="button" class="btn-modal-cancel" onclick="closeConfirmDeleteModal({{ $sale->id }})">Batal</button>
+            <button type="button" class="btn-modal-confirm" onclick="document.getElementById('deleteForm{{ $sale->id }}').submit()">Ya, Hapus</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<form action="{{ route('penjualan.destroy', $sale) }}" method="POST" id="deleteForm{{ $sale->id }}" style="display:none;">
+    @csrf
+    @method('DELETE')
+</form>
+@endcan
+@endforeach
+
 <script>
     function openDetailModal(id) {
         document.getElementById('detailModal' + id).classList.add('active');
     }
     function closeDetailModal(id) {
         document.getElementById('detailModal' + id).classList.remove('active');
+    }
+
+    function openConfirmDeleteModal(id) {
+        document.getElementById('confirmDeleteModal' + id).classList.add('active');
+    }
+    function closeConfirmDeleteModal(id) {
+        document.getElementById('confirmDeleteModal' + id).classList.remove('active');
     }
 </script>
 

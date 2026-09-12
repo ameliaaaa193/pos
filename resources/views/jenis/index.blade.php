@@ -83,7 +83,6 @@
         vertical-align: middle;
     }
 
-    /* Kolom Aksi dibuat sedikit lebih ke tengah */
     .table-card thead th:last-child,
     .table-card tbody td:last-child {
         width: 30%;
@@ -104,7 +103,101 @@
         border-radius: 0.5rem;
         font-weight: 600;
     }
+
+    .alert-danger, .alert-success {
+        border: none;
+        border-radius: 0.75rem;
+        padding: 0.9rem 1.25rem;
+        margin-bottom: 1.25rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+    .alert-danger { background: #fee2e2; color: #b91c1c; }
+    .alert-success { background: #d1fae5; color: #047857; }
+
+    /* Custom modal konfirmasi */
+    .custom-modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.45);
+        z-index: 1050;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    }
+    .custom-modal-overlay.active {
+        display: flex;
+    }
+    .custom-modal-box {
+        background: #fff;
+        border-radius: 1rem;
+        width: 100%;
+        max-width: 380px;
+        overflow: hidden;
+    }
+    .custom-modal-header {
+        background: #fdecf1;
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .custom-modal-header h5 {
+        margin: 0;
+        font-weight: 700;
+        color: #db2763;
+        font-size: 1.05rem;
+    }
+    .custom-modal-close {
+        background: none;
+        border: none;
+        font-size: 1.4rem;
+        line-height: 1;
+        color: #db2763;
+        cursor: pointer;
+    }
+    .custom-modal-body {
+        padding: 1.5rem;
+        text-align: center;
+    }
+    .custom-modal-body p {
+        color: #374151;
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+    }
+    .custom-modal-actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+    .custom-modal-actions button {
+        flex: 1;
+        border: none;
+        border-radius: 0.6rem;
+        padding: 0.6rem;
+        font-weight: 600;
+    }
+    .btn-modal-cancel {
+        background: #f3f4f6;
+        color: #374151;
+    }
+    .btn-modal-cancel:hover {
+        background: #e5e7eb;
+    }
+    .btn-modal-confirm {
+        background: #db2763;
+        color: #fff;
+    }
+    .btn-modal-confirm:hover {
+        background: #b91c4f;
+    }
 </style>
+
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
 
 <div class="page-header">
     <h1>Jenis</h1>
@@ -158,17 +251,9 @@
                     @endcan
 
                     @can('delete', $item)
-                    <form action="{{ route('jenis.destroy', $item) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-
-                        <button
-                            type="submit"
-                            class="btn btn-danger"
-                            onclick="return confirm('Apakah anda yakin akan menghapus jenis ini?')">
-                            Hapus
-                        </button>
-                    </form>
+                    <button type="button" class="btn btn-danger" onclick="openConfirmModal('jenis{{ $item->id }}')">
+                        Hapus
+                    </button>
                     @endcan
                 </td>
             </tr>
@@ -185,5 +270,38 @@
 
     {{ $jenis->links() }}
 </div>
+
+{{-- Modal konfirmasi hapus, satu per jenis --}}
+@foreach($jenis as $item)
+<div class="custom-modal-overlay" id="confirmModal-jenis{{ $item->id }}">
+  <div class="custom-modal-box">
+    <div class="custom-modal-header">
+        <h5>Hapus Jenis</h5>
+        <button type="button" class="custom-modal-close" onclick="closeConfirmModal('jenis{{ $item->id }}')">&times;</button>
+    </div>
+    <div class="custom-modal-body">
+        <p>Apakah anda yakin akan menghapus jenis "{{ $item->nama }}"?</p>
+        <div class="custom-modal-actions">
+            <button type="button" class="btn-modal-cancel" onclick="closeConfirmModal('jenis{{ $item->id }}')">Batal</button>
+            <button type="button" class="btn-modal-confirm" onclick="document.getElementById('deleteForm-jenis{{ $item->id }}').submit()">Ya, Hapus</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<form action="{{ route('jenis.destroy', $item) }}" method="POST" id="deleteForm-jenis{{ $item->id }}" style="display:none;">
+    @csrf
+    @method('DELETE')
+</form>
+@endforeach
+
+<script>
+    function openConfirmModal(id) {
+        document.getElementById('confirmModal-' + id).classList.add('active');
+    }
+    function closeConfirmModal(id) {
+        document.getElementById('confirmModal-' + id).classList.remove('active');
+    }
+</script>
 
 @endsection

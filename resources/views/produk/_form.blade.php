@@ -124,7 +124,7 @@
 </div>
 
 <div>
-    <label>Harga Beli</label><br>
+    <label>Harga Pokok</label><br>
 
     <input type="number"
            name="purchase_price"

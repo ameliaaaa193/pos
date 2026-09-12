@@ -109,7 +109,8 @@ class PenjualanController extends Controller
     public function update(Request $request, Penjualan $penjualan)
     {
         $request->validate([
-            'payment_method' => 'required|in:CASH,QRIS'
+            'payment_method' => 'required|in:CASH,QRIS',
+            'uang_diterima'  => 'required_if:payment_method,CASH|nullable|integer|min:0',
         ]);
 
         if ($penjualan->status !== 'OPEN') {
@@ -120,14 +121,25 @@ class PenjualanController extends Controller
             return back()->with('errors', 'Keranjang masih kosong');
         }
 
-        DB::transaction(function () use ($penjualan, $request) {
+        // 🔄 Hitung ulang total (anti manipulasi)
+        $total = $penjualan->itemPenjualan()->sum('subtotal');
 
-            // 🔄 Hitung ulang total (anti manipulasi)
-            $total = $penjualan->itemPenjualan()->sum('subtotal');
+        $uangDiterima = $request->payment_method === 'CASH'
+            ? (int) $request->uang_diterima
+            : $total; // QRIS dianggap pas, kembalian 0
 
+        $kembalian = $uangDiterima - $total;
+
+        if ($request->payment_method === 'CASH' && $kembalian < 0) {
+            return back()->with('errors', 'Uang diterima kurang dari total pembayaran');
+        }
+
+        DB::transaction(function () use ($penjualan, $request, $total, $uangDiterima, $kembalian) {
             $penjualan->update([
                 'metode_pembayaran' => $request->payment_method,
                 'total_pembayaran' => $total,
+                'uang_diterima' => $uangDiterima,
+                'kembalian' => $kembalian,
                 'status' => 'COMPLETED'
             ]);
         });
