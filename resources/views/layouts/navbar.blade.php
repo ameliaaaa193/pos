@@ -20,6 +20,7 @@
         @endif
         <li><a class="sidebar-link {{ Request::is('produk') ? 'active' : '' }}" href="{{ route('produk.index') }}"><i class="bi bi-box-seam"></i> Produk</a></li>
         <li><a class="sidebar-link {{ Request::is('penjualan') ? 'active' : '' }}" href="{{ route('penjualan.index') }}"><i class="bi bi-cart-check"></i> Penjualan</a></li>
+        <li><a class="sidebar-link {{ Request::is('tentang') ? 'active' : '' }}" href="{{ route('tentang') }}"><i class="bi bi-info-circle"></i> Tentang</a></li> 
     </ul>
 
     <div class="sidebar-footer">

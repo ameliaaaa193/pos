@@ -126,20 +126,37 @@
         {{-- Ganti src dengan foto kamu, atau hapus tag img ini kalau tidak perlu --}}
         {{-- <img src="https://via.placeholder.com/140" alt="Foto Profil" class="about-avatar"> --}}
 
-        <div class="about-name">Nama Kamu</div>
-        <div class="about-role">Siswa RPL &middot; Pengembang Nyamnyam Shop</div>
-
-        <div class="about-section-title">Tentang Saya</div>
-        <p class="about-text">
-            Tulis deskripsi singkat tentang diri kamu di sini. Misalnya: siswa jurusan
-            Rekayasa Perangkat Lunak yang membangun aplikasi Point of Sale (POS) ini
-            sebagai proyek Uji Kompetensi (Ujikom).
-        </p>
+        <div class="about-name">Nyamnyam Shop</div>
+        {{-- <div class="about-role">Siswa RPL &middot; Pengembang Nyamnyam Shop</div> --}}
 
         <div class="about-section-title">Tentang Aplikasi</div>
         <p class="about-text">
-            Nyamnyam Shop adalah aplikasi kasir sederhana berbasis Laravel yang digunakan
-            untuk mengelola produk, jenis produk, dan transaksi penjualan.
+         Nyamnyam Shop adalah usaha kuliner yang bergerak di bidang penjualan makanan dan jajanan siap saji,
+          dengan tagline "Kulineran Yuk!". Usaha ini menyediakan berbagai produk makanan seperti bakso 
+          dan jajanan lainnya yang dikategorikan berdasarkan jenis produk untuk memudahkan pelanggan dalam memilih.
+          Seiring berkembangnya jumlah transaksi dan pelanggan, Nyamnyam Shop mulai mengalami kendala dalam pencatatan penjualan 
+          yang masih dilakukan secara manual, sehingga sering terjadi kesalahan pencatatan, sulitnya rekapitulasi laporan penjualan harian,
+          serta lambatnya proses transaksi di kasir
+        </p>
+
+        <div class="about-section-title">Proses Bisnis Sebelum Adanya Sistem</div>
+        <p class="about-text">
+        Sebelumnya, seluruh proses transaksi di Nyamnyam Shop dilakukan secara manual menggunakan nota kertas. Kasir mencatat
+            setiap pesanan pelanggan satu per satu, kemudian menghitung total pembayaran secara manual. Hal ini menimbulkan beberapa masalah, di antaranya:
+            Rentan terjadi kesalahan hitung total pembayaran dan kembalian.
+            Data penjualan sulit direkap menjadi laporan harian/bulanan.
+            Tidak ada pencatatan status transaksi (selesai, dibatalkan, dsb) secara jelas.
+            Proses pelayanan pelanggan menjadi lebih lambat saat jam ramai.
+        </p>
+
+        <div class="about-section-title">Alasan Dibutuhkan Sistem Aplikasi</div>
+        <p class="about-text">
+            Berdasarkan permasalahan tersebut, dibutuhkan sebuah sistem aplikasi Point of Sale (POS) berbasis web yang dapat:
+                Mencatat transaksi penjualan secara otomatis dan real-time.
+                Mengelola data produk dan jenis produk dengan mudah.
+                Menghitung total pembayaran secara otomatis sehingga meminimalisir human error.
+                Menyediakan riwayat dan status transaksi (Open, Completed, Pending, Cancelled).
+                Memberikan laporan penjualan yang dapat diakses oleh admin/owner kapan saja.
         </p>
 
         <div class="about-section-title">Tools &amp; Teknologi</div>
@@ -149,11 +166,11 @@
             <li>MySQL</li>
         </ul>
 
-        <div class="about-section-title">Kontak</div>
-        <div class="about-contact">
+        {{-- <div class="about-section-title">Kontak</div> --}}
+        {{-- <div class="about-contact">
             <a href="mailto:emailkamu@example.com">emailkamu@example.com</a>
             <a href="https://github.com/username-kamu" target="_blank">GitHub</a>
-        </div>
+        </div> --}}
 
         @auth
         <a href="{{ route('dashboard') }}" class="about-back">&larr; Kembali ke Dashboard</a>

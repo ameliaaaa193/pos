@@ -40,6 +40,6 @@ Route::middleware('auth')->group(function () {
     });
     });
 
-    Route::get('/about', function () {
-        return view('about');
-    })->name('about');
+    Route::get('/tentang', function () {
+        return view('tentang');
+    })->name('tentang');
