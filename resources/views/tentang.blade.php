@@ -1,182 +1,135 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tentang</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background: #f9fafb;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            padding: 2.5rem 1rem;
-        }
+@extends('layouts.app')
 
-        .about-card {
-            background: #fff;
-            border: none;
-            border-radius: 1rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-            padding: 2rem;
-            max-width: 700px;
-            margin: 0 auto;
-        }
+@section('title', 'Tentang')
 
-        .about-avatar {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #fdecf1;
-            display: block;
-            margin: 0 auto 1.25rem;
-        }
+@section('content')
 
-        .about-name {
-            text-align: center;
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: #1f2937;
-            margin-bottom: 0.25rem;
-        }
+<style>
+    .about-header {
+        margin-bottom: 1.5rem;
+    }
+    .about-header h1 {
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: #1f2937;
+    }
 
-        .about-role {
-            text-align: center;
-            color: #db2763;
-            font-weight: 600;
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-        }
+   .about-card {
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    padding: 2.5rem;
+    max-width: 100%;
+    width: 100%;
+    }
+    
+    .about-logo {
+        width: 64px;
+        height: 64px;
+        border-radius: 1rem;
+        background: #db2763;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
 
-        .about-section-title {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-            color: #9ca3af;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            margin-top: 1.5rem;
-        }
+    .about-card h2 {
+        font-weight: 700;
+        color: #1f2937;
+        font-size: 1.4rem;
+        margin-bottom: 0.25rem;
+    }
 
-        .about-text {
-            color: #374151;
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
+    .about-card .version-badge {
+        display: inline-block;
+        background: #fdecf1;
+        color: #db2763;
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 0.25rem 0.75rem;
+        border-radius: 999px;
+        margin-bottom: 1.25rem;
+    }
 
-        .about-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .about-list li {
-            color: #374151;
-            font-size: 0.9rem;
-            padding: 0.35rem 0;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .about-list li::before {
-            content: "•";
-            color: #db2763;
-            font-weight: 700;
-        }
+    .about-card p.description {
+        color: #4b5563;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
 
-        .about-contact {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            margin-top: 0.5rem;
-        }
-        .about-contact a {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            background: #fdecf1;
-            color: #db2763;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.85rem;
-            padding: 0.4rem 0.9rem;
-            border-radius: 999px;
-        }
-        .about-contact a:hover {
-            background: #db2763;
-            color: #fff;
-        }
+    .about-section-title {
+        font-weight: 700;
+        color: #1f2937;
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+    }
 
-        .about-back {
-            display: block;
-            text-align: center;
-            margin-top: 1.5rem;
-            font-size: 0.85rem;
-            color: #9ca3af;
-            text-decoration: none;
-        }
-        .about-back:hover {
-            color: #db2763;
-        }
-    </style>
-</head>
-<body>
+    .feature-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 1.5rem;
+    }
+    .feature-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.6rem;
+        padding: 0.5rem 0;
+        color: #374151;
+        font-size: 0.9rem;
+        border-bottom: 1px solid #f1e3e8;
+    }
+    .feature-list li:last-child {
+        border-bottom: none;
+    }
+    .feature-list i {
+        color: #db2763;
+        margin-top: 0.15rem;
+    }
 
-    <div class="about-card">
+    .about-footer {
+        border-top: 1px solid #f1e3e8;
+        padding-top: 1.25rem;
+        color: #9ca3af;
+        font-size: 0.8rem;
+    }
+</style>
 
-        {{-- Ganti src dengan foto kamu, atau hapus tag img ini kalau tidak perlu --}}
-        {{-- <img src="https://via.placeholder.com/140" alt="Foto Profil" class="about-avatar"> --}}
+<div class="about-header">
+    <h1>Tentang Aplikasi</h1>
+</div>
 
-        <div class="about-name">Nyamnyam Shop</div>
-        {{-- <div class="about-role">Siswa RPL &middot; Pengembang Nyamnyam Shop</div> --}}
-
-        <div class="about-section-title">Tentang Aplikasi</div>
-        <p class="about-text">
-         Nyamnyam Shop adalah usaha kuliner yang bergerak di bidang penjualan makanan dan jajanan siap saji,
-          dengan tagline "Kulineran Yuk!". Usaha ini menyediakan berbagai produk makanan seperti bakso 
-          dan jajanan lainnya yang dikategorikan berdasarkan jenis produk untuk memudahkan pelanggan dalam memilih.
-          Seiring berkembangnya jumlah transaksi dan pelanggan, Nyamnyam Shop mulai mengalami kendala dalam pencatatan penjualan 
-          yang masih dilakukan secara manual, sehingga sering terjadi kesalahan pencatatan, sulitnya rekapitulasi laporan penjualan harian,
-          serta lambatnya proses transaksi di kasir
-        </p>
-
-        <div class="about-section-title">Proses Bisnis Sebelum Adanya Sistem</div>
-        <p class="about-text">
-        Sebelumnya, seluruh proses transaksi di Nyamnyam Shop dilakukan secara manual menggunakan nota kertas. Kasir mencatat
-            setiap pesanan pelanggan satu per satu, kemudian menghitung total pembayaran secara manual. Hal ini menimbulkan beberapa masalah, di antaranya:
-            Rentan terjadi kesalahan hitung total pembayaran dan kembalian.
-            Data penjualan sulit direkap menjadi laporan harian/bulanan.
-            Tidak ada pencatatan status transaksi (selesai, dibatalkan, dsb) secara jelas.
-            Proses pelayanan pelanggan menjadi lebih lambat saat jam ramai.
-        </p>
-
-        <div class="about-section-title">Alasan Dibutuhkan Sistem Aplikasi</div>
-        <p class="about-text">
-            Berdasarkan permasalahan tersebut, dibutuhkan sebuah sistem aplikasi Point of Sale (POS) berbasis web yang dapat:
-                Mencatat transaksi penjualan secara otomatis dan real-time.
-                Mengelola data produk dan jenis produk dengan mudah.
-                Menghitung total pembayaran secara otomatis sehingga meminimalisir human error.
-                Menyediakan riwayat dan status transaksi (Open, Completed, Pending, Cancelled).
-                Memberikan laporan penjualan yang dapat diakses oleh admin/owner kapan saja.
-        </p>
-
-        <div class="about-section-title">Tools &amp; Teknologi</div>
-        <ul class="about-list">
-            <li>Laravel {{ app()->version() }}</li>
-            <li>Bootstrap</li>
-            <li>MySQL</li>
-        </ul>
-
-        {{-- <div class="about-section-title">Kontak</div> --}}
-        {{-- <div class="about-contact">
-            <a href="mailto:emailkamu@example.com">emailkamu@example.com</a>
-            <a href="https://github.com/username-kamu" target="_blank">GitHub</a>
-        </div> --}}
-
-        @auth
-        <a href="{{ route('dashboard') }}" class="about-back">&larr; Kembali ke Dashboard</a>
-        @endauth
-
+<div class="about-card">
+    <div class="about-logo">
+        <i class="bi bi-cup-straw"></i>
     </div>
 
-</body>
-</html>
+    <h2>Nyamnyam Shop</h2>
+    <span class="version-badge">Versi 1.0.0</span>
+
+    <p class="description">
+        Nyamnyam Shop adalah aplikasi Point of Sale (POS) berbasis web yang dibangun untuk membantu
+        pelaku usaha kuliner dalam mengelola transaksi penjualan, data produk, kategori produk, dan
+        pengguna secara digital, terpusat, dan mudah digunakan.
+    </p>
+
+    <div class="about-section-title">Fitur Utama</div>
+    <ul class="feature-list">
+        <li><i class="bi bi-check-circle-fill"></i> Manajemen pengguna dengan pembagian hak akses (admin & kasir)</li>
+        <li><i class="bi bi-check-circle-fill"></i> Manajemen kategori (jenis) dan data produk</li>
+        <li><i class="bi bi-check-circle-fill"></i> Transaksi penjualan dengan metode pembayaran Cash & QRIS</li>
+        <li><i class="bi bi-check-circle-fill"></i> Perhitungan otomatis uang diterima dan kembalian</li>
+        <li><i class="bi bi-check-circle-fill"></i> Dashboard ringkasan penjualan harian dan status stok</li>
+        <li><i class="bi bi-check-circle-fill"></i> Riwayat transaksi lengkap dengan detail item yang dibeli</li>
+    </ul>
+
+    <div class="about-footer">
+        Dibangun menggunakan Laravel &amp; Bootstrap.<br>
+        &copy; {{ date('Y') }} Nyamnyam Shop. All rights reserved.
+    </div>
+</div>
+
+@endsection

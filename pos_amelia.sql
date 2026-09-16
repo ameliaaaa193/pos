@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               8.0.30 - MySQL Community Server - GPL
+-- Server version:               8.4.3 - MySQL Community Server - GPL
 -- Server OS:                    Win64
--- HeidiSQL Version:             12.1.0.6537
+-- HeidiSQL Version:             12.8.0.6908
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `item_penjualan` (
   CONSTRAINT `item_penjualan_produk_id_foreign` FOREIGN KEY (`produk_id`) REFERENCES `produk` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table pos_amelia.item_penjualan: ~12 rows (approximately)
+-- Dumping data for table pos_amelia.item_penjualan: ~10 rows (approximately)
 INSERT INTO `item_penjualan` (`id`, `penjualan_id`, `produk_id`, `kuantitas`, `harga_satuan`, `subtotal`, `created_at`, `updated_at`) VALUES
 	(1, 1, 4, 1, 20000, 20000, '2026-09-01 07:18:30', '2026-09-01 07:18:30'),
 	(2, 1, 6, 1, 20000, 20000, '2026-09-01 07:18:37', '2026-09-01 07:18:37'),
@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `penjualan` (
   CONSTRAINT `penjualan_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table pos_amelia.penjualan: ~11 rows (approximately)
+-- Dumping data for table pos_amelia.penjualan: ~12 rows (approximately)
 INSERT INTO `penjualan` (`id`, `user_id`, `total_pembayaran`, `metode_pembayaran`, `uang_diterima`, `kembalian`, `status`, `created_at`, `updated_at`) VALUES
 	(1, 2, 80000, 'QRIS', 0, 0, 'COMPLETED', '2026-09-01 07:18:25', '2026-09-01 07:19:00'),
 	(2, 2, 32000, 'CASH', 0, 0, 'COMPLETED', '2026-09-01 07:19:12', '2026-09-01 07:19:26'),
@@ -217,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `produk` (
   CONSTRAINT `produk_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table pos_amelia.produk: ~10 rows (approximately)
+-- Dumping data for table pos_amelia.produk: ~0 rows (approximately)
 INSERT INTO `produk` (`id`, `user_id`, `jenis_id`, `foto`, `nama`, `harga_beli`, `harga_jual`, `stok`, `created_at`, `updated_at`) VALUES
 	(1, 2, 3, 'products/wkXE9GMVMJYmr2MEcWOGG16EFjEg7IAV0ESBqjVA.jpg', 'Red Velvet', 15000, 17000, 4, '2026-09-01 07:08:22', '2026-09-12 14:20:27'),
 	(2, 2, 3, 'products/ojYh0AwLhahPAwLeu4Zis90GfOUUIVY6GZkNeGbq.jpg', 'Thai Tea', 17000, 20000, 4, '2026-09-01 07:09:00', '2026-09-12 15:18:55'),
@@ -259,7 +259,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 
 -- Dumping data for table pos_amelia.sessions: ~0 rows (approximately)
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-	('dSWRcsI09BOwfOWZ3CV1zHw5RSm96urhhQSMLbn7', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoidlRpeU1jVTlFN09DUTgySkMySlBpY3BFU3FZbDRkcGJDTlZxMnZOUSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC90ZW50YW5nIjtzOjU6InJvdXRlIjtzOjc6InRlbnRhbmciO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyO30=', 1789356606);
+	('0pfqEpGCEmDJ2OhzVbQitjAL54bGmg9YgcGB6ceV', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoieng3T2hpQmlzQm83VW9XT2dhZzJHS2Ria0dHREFRRGFtYkRtNlZ3QyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC90ZW50YW5nIjtzOjU6InJvdXRlIjtzOjc6InRlbnRhbmciO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyO30=', 1789533522);
 
 -- Dumping structure for table pos_amelia.users
 CREATE TABLE IF NOT EXISTS `users` (
@@ -277,10 +277,10 @@ CREATE TABLE IF NOT EXISTS `users` (
   FULLTEXT KEY `users_name_email_fulltext` (`name`,`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table pos_amelia.users: ~5 rows (approximately)
+-- Dumping data for table pos_amelia.users: ~6 rows (approximately)
 INSERT INTO `users` (`id`, `role_id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 	(1, 2, 'ameliaa', 'amelia@gmail.com', '2026-08-30 20:05:13', '$2y$12$9Bl1xe6BwRQ06n3lFKUN5.9LAJ.rDpPPjDDQoxKkdXHy88DkM2cpq', 'zMuash3IvnVh6jlbrgMHtaCCPLYI3u81p0xtFNDOOKhmuoCJhOJo1PDL2bly', '2026-08-30 20:05:13', '2026-09-11 04:19:31'),
-	(2, 1, 'shintya', 'shintya@gmail.com', '2026-08-30 20:05:13', '$2y$12$NW.01xWh4lgN5.E0uBqIK.YDAVJjAIpqtXqLjK3gmBA4d0jVL//F.', 'uqeu0OaRZh7PxVKL92rV1EPGI3gwCUfXSkaPcJ13jpYsuYtStHhFxPPU5D7n', '2026-08-30 20:05:13', '2026-09-11 04:20:07'),
+	(2, 1, 'shintya', 'shintya@gmail.com', '2026-08-30 20:05:13', '$2y$12$NW.01xWh4lgN5.E0uBqIK.YDAVJjAIpqtXqLjK3gmBA4d0jVL//F.', 'Ok3Y5Biu4rUCIiTD00lPH0AUKp3df195lsfLbWVhfOConJIidX6YjbLbXMRD', '2026-08-30 20:05:13', '2026-09-11 04:20:07'),
 	(3, 2, 'dewii', 'dewii@gmail.com', '2026-08-30 20:05:13', '$2y$12$OcMxbDIreb0LVRr74BeAaeqtUL/8SBWPuqqYM3BStgqA7WZxJF1iC', 'AHdxiaTlum', '2026-08-30 20:05:13', '2026-09-11 04:20:40'),
 	(7, 1, 'liaa', 'liaa@gmail.com', NULL, '$2y$12$7A9dMV5B4Fhz8eh30QD3J.GFKXuD.Y.0Dzxna.uEtL/IWhOd7Atfu', NULL, '2026-09-11 04:23:35', '2026-09-11 04:23:35'),
 	(9, 1, 'mell', 'mell@gmail.com', NULL, '$2y$12$V8S9NePEoFg9DFCyYg0K.Oq93qjL.VY8w.SB/H/35gh5klanlIZKG', NULL, '2026-09-13 00:11:46', '2026-09-13 00:11:46'),

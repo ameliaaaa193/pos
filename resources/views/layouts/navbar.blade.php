@@ -1,14 +1,14 @@
 <aside class="sidebar">
-    <div class="sidebar-brand">
+    {{-- <div class="sidebar-brand"> --}}
+   <a href="{{ route('tentang') }}" class="sidebar-brand">
         <div class="sidebar-brand-icon"><i class="bi bi-cart3"></i></div>
         <div>
             <div class="sidebar-brand-title">Nyamnyam Shop</div>
             <div class="sidebar-brand-subtitle">Kulineran Yuk!</div>
         </div>
-    </div>
+    </a>
 
     <ul class="sidebar-menu">
-        {{-- <li><a class="sidebar-link {{ Request::is('about') ? 'active' : '' }}" href="{{ route('about') }}"><i class="bi bi-info-circle"></i> About</a></li> --}}
         <li><a class="sidebar-link {{ Request::is('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}"><i class="bi bi-house"></i> Dashboard</a></li>
         {{-- Menu Users hanya untuk admin(role_id = 1) --}}
         @if(auth()->user()->role_id === 1)
@@ -20,7 +20,6 @@
         @endif
         <li><a class="sidebar-link {{ Request::is('produk') ? 'active' : '' }}" href="{{ route('produk.index') }}"><i class="bi bi-box-seam"></i> Produk</a></li>
         <li><a class="sidebar-link {{ Request::is('penjualan') ? 'active' : '' }}" href="{{ route('penjualan.index') }}"><i class="bi bi-cart-check"></i> Penjualan</a></li>
-        <li><a class="sidebar-link {{ Request::is('tentang') ? 'active' : '' }}" href="{{ route('tentang') }}"><i class="bi bi-info-circle"></i> Tentang</a></li> 
     </ul>
 
     <div class="sidebar-footer">
@@ -31,7 +30,7 @@
 
 <style>
     .sidebar { width: 260px; flex-shrink: 0; background: #fff; border-right: 1px solid #f1e3e8; display: flex; flex-direction: column; padding: 1.5rem 1rem; }
-    .sidebar-brand { display: flex; align-items: center; gap: 0.75rem; padding: 0 0.5rem 1.25rem; margin-bottom: 1rem; border-bottom: 1px solid #f1e3e8; }
+    .sidebar-brand { display: flex; align-items: center; gap: 0.75rem; padding: 0 0.5rem 1.25rem; margin-bottom: 1rem; border-bottom: 1px solid #f1e3e8; text-decoration: none; cursor: pointer; }
     .sidebar-brand-icon { width: 40px; height: 40px; border-radius: 0.75rem; background: #db2763; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
     .sidebar-brand-title { font-weight: 700; color: #db2763; font-size: 1.1rem; line-height: 1.2; }
     .sidebar-brand-subtitle { font-size: 0.75rem; color: #9ca3af; }
