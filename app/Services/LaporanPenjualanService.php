@@ -53,4 +53,26 @@ class LaporanPenjualanService
             ->limit($limit)
             ->get();
     }
+
+    public function transaksiHariIni()
+    {
+        return DB::table('penjualan')
+            ->join('item_penjualan', 'penjualan.id', '=', 'item_penjualan.penjualan_id')
+            ->join('produk', 'produk.id', '=', 'item_penjualan.produk_id')
+            ->join('users', 'users.id', '=', 'penjualan.user_id')
+            ->whereDate('penjualan.created_at', Carbon::today())
+            ->where('penjualan.status', 'COMPLETED')
+            ->select(
+                'penjualan.id',
+                'penjualan.created_at',
+                'penjualan.metode_pembayaran',
+                'produk.nama as produk_nama',
+                'produk.harga_jual',
+                'item_penjualan.kuantitas',
+                'item_penjualan.subtotal',
+                'users.name as kasir_name'
+            )
+            ->orderBy('penjualan.created_at', 'desc')
+            ->get();
+    }
 }

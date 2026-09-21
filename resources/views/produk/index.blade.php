@@ -254,7 +254,7 @@
           </td>
           <td>{{ $product->harga_beli }}</td>
           <td>{{ $product->harga_jual }}</td>
-          <td>{{ $product->stok }}</td>
+          <td>{{ $product->stok }} pcs</td>
           <td>
             @can('update', $product)
             <a href="{{ route('produk.edit', $product) }}" class="btn btn-warning me-1">Edit</a>

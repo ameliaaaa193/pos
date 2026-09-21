@@ -36,14 +36,15 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:admin,kasir')->group(function () {
         Route::resource('/produk', ProdukController::class);
         Route::resource('/penjualan', PenjualanController::class);
+        Route::get('/penjualan/{penjualan}/pdf', [PenjualanController::class, 'downloadPdf'])->name('penjualan.pdf');
         Route::resource('/itempenjualan', ItemPenjualanController::class);
     });
-    });
+});
 
     Route::get('/about', function () {
         return view('about');
     })->name('about');
 
-        Route::get('/tentang', function () {
+    Route::get('/tentang', function () {
         return view('tentang');
     })->name('tentang');

@@ -39,6 +39,10 @@
         background: #fdecf1 !important;
         border-color: #db2763 !important;
     }
+    .product-pick-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
     .product-pick-btn img {
         border: 2px solid #fdecf1;
     }
@@ -47,14 +51,29 @@
         font-weight: 600;
     }
 
+    .qty-input-group .input-group-text {
+        background: #fdecf1;
+        border: 1px solid #e5e7eb;
+        border-left: none;
+        color: #db2763;
+        font-size: 0.8rem;
+        font-weight: 600;
+        border-radius: 0 0.6rem 0.6rem 0;
+    }
+
     .qty-input {
-        border-radius: 0.6rem;
+        border-radius: 0.6rem 0 0 0.6rem;
         border: 1px solid #e5e7eb;
         text-align: center;
     }
     .qty-input:focus {
         border-color: #db2763;
         box-shadow: 0 0 0 0.2rem rgba(219, 39, 99, 0.12);
+        z-index: 1;
+    }
+    .qty-input[readonly] {
+        background: #f3f4f6;
+        cursor: not-allowed;
     }
 
     .btn-add-product {
@@ -65,6 +84,10 @@
     }
     .btn-add-product:hover {
         background: #b91c4f !important;
+    }
+    .btn-add-product:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 
     .cart-table thead th {
@@ -168,11 +191,19 @@
     .btn-success:hover {
         background: #059669 !important;
     }
+    .btn-success:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
 
     .btn-outline-danger {
         border-radius: 0.6rem !important;
         font-weight: 600;
         padding: 0.65rem;
+    }
+    .btn-outline-danger:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 
     .btn-danger.btn-sm {
@@ -291,7 +322,7 @@
                   <input type="hidden" name="product_id" value="{{ $product->id }}">
 
                 <div class="col-7">
-                  <button class="btn product-pick-btn w-100 text-start p-2 {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }}">
+                  <button class="btn product-pick-btn w-100 text-start p-2" {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }}>
                     <div class="d-flex align-items-center gap-2">
 
                       <img src="{{ asset('storage/'.$product->foto) }}"
@@ -308,12 +339,15 @@
                 </div>
 
                 <div class="col-3">
-                  <input type="number" name="quantity" value="1" min="1"
-                         class="form-control qty-input {{ $sale->status === 'COMPLETED' ? 'readonly' : '' }}">
+                  <div class="input-group qty-input-group">
+                    <input type="number" name="quantity" value="1" min="1"
+                           class="form-control qty-input" {{ $sale->status === 'COMPLETED' ? 'readonly' : '' }}>
+                    <span class="input-group-text">pcs</span>
+                  </div>
                 </div>
 
                 <div class="col-2">
-                    <button class="btn btn-add-product w-100 {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }}">+</button>
+                    <button class="btn btn-add-product w-100" {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }}>+</button>
                 </div>
               </form>
             @endforeach
@@ -339,14 +373,14 @@
                 <td>{{ $item->produk->nama }}</td>
                 <td>Rp.{{ number_format($item->produk->harga_jual) }}</td>
 
-                <td>{{ $item->kuantitas }}</td>
+                <td>{{ $item->kuantitas }} pcs</td>
 
                 <td>Rp. {{ number_format($item->subtotal) }}</td>
                 <td>
                   @can('delete', $item)
                    <form method="POST" action="{{ route('itempenjualan.destroy', $item->id) }}">
                       @csrf @method('DELETE')
-                      <button class="btn btn-danger btn-sm">Hapus</button>
+                      <button class="btn btn-danger btn-sm" {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }}>Hapus</button>
                     </form>
                     @endcan
                 </td>
@@ -370,7 +404,7 @@
                   class="mt-2">
               @csrf
               @method('PUT')
-              <select name="payment_method" id="paymentMethod" class="form-select mb-2" onchange="togglePaymentUI()">
+              <select name="payment_method" id="paymentMethod" class="form-select mb-2" onchange="togglePaymentUI()" {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }}>
                 <option value="">Pilih Pembayaran</option>
                 <option value="CASH">Cash</option>
                 <option value="QRIS">QRIS</option>
@@ -385,7 +419,8 @@
                          class="form-control mb-2"
                          placeholder="Masukkan jumlah uang"
                          min="0"
-                         oninput="hitungKembalian()">
+                         oninput="hitungKembalian()"
+                         {{ $sale->status === 'COMPLETED' ? 'readonly' : '' }}>
 
                   <div id="kembalianBox" class="kembalian-box">
                       Kembalian: Rp 0
@@ -398,7 +433,7 @@
                   <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=POS-PAYMENT-{{ $sale->id }}-{{ $sale->total_pembayaran }}" alt="QR Code Pembayaran">
               </div>
 
-              <button type="button" class="btn btn-success w-100 {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }}" onclick="openConfirmModal('checkout')">
+              <button type="button" class="btn btn-success w-100" {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }} onclick="openConfirmModal('checkout')">
                  Checkout
               </button>
             </form>
@@ -408,7 +443,7 @@
                   id="batalForm">
                   @csrf
                   @method('DELETE')
-                  <button type="button" class="btn btn-outline-danger w-100 mt-2 {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }}" onclick="openConfirmModal('batal')">
+                  <button type="button" class="btn btn-outline-danger w-100 mt-2" {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }} onclick="openConfirmModal('batal')">
                       Batal Transaksi
                   </button>
             </form>

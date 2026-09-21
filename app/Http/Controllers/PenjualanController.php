@@ -8,6 +8,7 @@ use App\Models\Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PenjualanController extends Controller
 {
@@ -176,5 +177,18 @@ class PenjualanController extends Controller
         return redirect()
             ->route('penjualan.index')
             ->with('success', 'Transaksi berhasil dibatalkan');
+    }
+
+    /**
+     * Download struk transaksi sebagai PDF.
+     */
+    public function downloadPdf(Penjualan $penjualan)
+    {
+        $penjualan->load(['itemPenjualan.produk', 'user']);
+
+        $pdf = Pdf::loadView('penjualan.struk-pdf', ['sale' => $penjualan])
+            ->setPaper([0, 0, 226.77, 600], 'portrait');
+
+        return $pdf->download('struk-transaksi-' . $penjualan->id . '.pdf');
     }
 }

@@ -99,6 +99,23 @@
         font-weight: 600;
     }
 
+    .btn-pdf {
+        background: #2563eb;
+        border: none;
+        border-radius: 0.6rem;
+        color: #fff;
+        font-weight: 600;
+        display: block;
+        text-align: center;
+        text-decoration: none;
+        padding: 0.6rem;
+        margin-top: 1rem;
+    }
+    .btn-pdf:hover {
+        background: #1d4ed8;
+        color: #fff;
+    }
+
     /* Custom modal (tanpa Bootstrap JS) */
     .custom-modal-overlay {
         display: none;
@@ -362,6 +379,12 @@
                 Status transaksi: {{ $sale->status }}.
             @endif
         </div>
+
+        @if($sale->status === 'COMPLETED')
+        <a href="{{ route('penjualan.pdf', $sale->id) }}" class="btn-pdf" target="_blank">
+            <i class="bi bi-file-earmark-pdf"></i> Download PDF
+        </a>
+        @endif
     </div>
   </div>
 </div>

@@ -13,6 +13,7 @@ class DashboardController extends Controller
         protected LaporanPenjualanService $laporanService,
         protected MonitoringStokService $stokService
     ) {}
+    
     public function index()
     {
         $ringkasan = $this->laporanService->ringkasanHariini();
@@ -23,6 +24,7 @@ class DashboardController extends Controller
             'produkTerlaris' => $this->laporanService->produkTerlarisHariIni(),
             'produkStokRendah' => $this->stokService->produkStokRendah(),
             'produkStokHabis' => $this->stokService->produkStokHabis(),
+            'transaksiHariIni' => $this->laporanService->transaksiHariIni(),
         ]);
     }
 }
